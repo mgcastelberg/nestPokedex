@@ -52,7 +52,6 @@ export class PokemonService {
   }
 
   async update(param: string, updatePokemonDto: UpdatePokemonDto) {
-
     const pokemon = await this.findOne( param );
     try {
       if(updatePokemonDto.name) updatePokemonDto.name.toLowerCase();
@@ -63,8 +62,10 @@ export class PokemonService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(id: string) {
+    const pokemon = await this.findOne( id );
+    await pokemon.deleteOne();
+    return `Pokemon #${id} has removed`;
   }
 
   private handleExceptions( error: any )
