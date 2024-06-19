@@ -16,18 +16,57 @@ export class SeedService {
     private readonly pokemonModel: Model<Pokemon>
   ){}
 
+  
+  // Forma 1: insertar por lote
+  // async executedSeed() {
+  //   const { data } = await this.axios.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=5');
+  //   data.results.forEach( async({name,url})=>{
+  //     const segments = url.split('/');
+  //     const no = +segments[ segments.length - 2];
+  //     const pokemon = await this.pokemonModel.create( {name, no} );
+  //     // console.log({name, no});
+  //   })
+  //   return data.results;
+  // }
+
+  // Forma 2 - Insercion Iterativa
+  // async executedSeed() {
+
+  //   await this.pokemonModel.deleteMany({}); // delete * from Pokemons;
+
+  //   const { data } = await this.axios.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=5');
+  //   const insertPromiseArray = [];
+  //   data.results.forEach( ({name,url})=>{
+  //     const segments = url.split('/');
+  //     const no = +segments[ segments.length - 2];
+
+  //     insertPromiseArray.push(
+  //       this.pokemonModel.create({name, no})
+  //     );
+  //   });
+
+  //   await Promise.all( insertPromiseArray );
+    
+  //   return `Seed Executed`;
+  // }
+
+  // Forma 3 - Insersion Masiva
   async executedSeed() {
-    const { data } = await this.axios.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=5');
-    data.results.forEach( async({name,url})=>{
-      // console.log(name);
+
+    await this.pokemonModel.deleteMany({}); // delete * from Pokemons;
+
+    const { data } = await this.axios.get<PokeResponse>('https://pokeapi.co/api/v2/pokemon?limit=650');
+    const pokemonToInsert: { name: string, no: number }[] = [];
+
+    data.results.forEach( ({name,url})=>{
       const segments = url.split('/');
       const no = +segments[ segments.length - 2];
+      pokemonToInsert.push({name, no}); //[{ name: bulbasaur, no: 1 }]
+    });
 
-      const pokemon = await this.pokemonModel.create( {name, no} );
-
-      console.log({name, no});
-    })
-    return data.results;
+    await this.pokemonModel.insertMany(pokemonToInsert);
+    
+    return `Seed Executed`;
   }
 
 }
