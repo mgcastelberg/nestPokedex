@@ -9,6 +9,10 @@ async function bootstrap() {
     new ValidationPipe({
        whitelist: true, //Valida que en la peticion lleguen ezactamaente los atributos definidos
        forbidNonWhitelisted: true, //Regresa error si vienen atributos extras
+       transform: true, //transforme la info
+       transformOptions: {
+        enableImplicitConversion: true //para que pase la validación de que es un numero
+       }
    })
   );
 
