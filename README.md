@@ -22,32 +22,6 @@ Pokedex with Nest Framework.
 $ npm install
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
 ## Configuration
 ```bash
 # Nest CLI Intallation
@@ -55,13 +29,20 @@ $ npm i -g @nestjs/cli
 
 # Build Up Database with Docker
 $ docker-compose up -d
-```
 
-Reconstruir la base de datos con la semilla
-```
+# Clonar el archivo 
+.env.template y renombrar la copia a .env
+
+# Agregar variables de entorno
+Llenar variables de entorno en el archivo .env 
+
+# Ejecutar ambiente de desarrollo
+$ npm run start:dev
+
+# Reconstruir la base de datos con la semilla
 http://localhost:3000/api/v2/seed
-```
 
+```
 
 ## Stack
 * MongoDB
